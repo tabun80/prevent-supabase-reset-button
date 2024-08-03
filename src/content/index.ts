@@ -8,6 +8,15 @@ const settings = await new Promise<SettingsSchema>((resolve) => {
   chrome.storage.local.get(['mySetting'], (result) => {
     if (result.mySetting) {
       resolve(result.mySetting);
+    } else {
+      resolve({
+        branches: [
+          {
+            name: 'main',
+            enable: true,
+          },
+        ],
+      });
     }
   });
 });
