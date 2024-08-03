@@ -31,10 +31,17 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     chrome.storage.local.get(['mySetting'], (result) => {
-      console.log(result);
       if (result.mySetting) {
         reset(result.mySetting);
       }
+      reset({
+        branches: [
+          {
+            name: 'main',
+            enable: true,
+          },
+        ],
+      });
     });
   }, [reset]);
 
