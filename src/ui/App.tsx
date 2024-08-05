@@ -24,8 +24,8 @@ export const App: React.FC = () => {
     name: 'branches',
   });
 
-  const onSubmit = (data: SettingsSchema) => {
-    chrome.storage.local.set({ mySetting: data });
+  const onSubmit = async (data: SettingsSchema) => {
+    await chrome.storage.local.set({ mySetting: data });
     toast.success('Saved');
   };
 
@@ -33,15 +33,16 @@ export const App: React.FC = () => {
     chrome.storage.local.get(['mySetting'], (result) => {
       if (result.mySetting) {
         reset(result.mySetting);
+      } else {
+        reset({
+          branches: [
+            {
+              name: 'main',
+              enable: true,
+            },
+          ],
+        });
       }
-      reset({
-        branches: [
-          {
-            name: 'main',
-            enable: true,
-          },
-        ],
-      });
     });
   }, [reset]);
 

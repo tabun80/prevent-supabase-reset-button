@@ -1,9 +1,11 @@
 import type { SettingsSchema } from '../common/settings';
 
-const TARGET_BUTTON_SELECTOR = '#database-password button';
-const BRANCH_NAME_SELECTOR =
-  '#__next > div.min-h-full.flex.flex-col > div.h-screen.min-h-\\[0px\\].basis-0.flex-1 > div > div.w-full.data-\\[panel-group-direction\\=vertical\\]\\:flex-col.flex.h-full > div.h-full > main > div > div.-ml-2.flex.items-center.text-sm > div:nth-child(5) > button > span > div > p';
-
+const TARGET_BUTTON_SELECTOR =
+  ':where(#database-password, #restart-project) button';
+const BRANCH_NAME_SELECTORS = [
+  '#__next main > div:first-child > div:first-child > div:last-child > button p',
+  '#__next main > div:first-child > div:first-child > button:last-child span',
+];
 const settings = await new Promise<SettingsSchema>((resolve) => {
   chrome.storage.local.get(['mySetting'], (result) => {
     if (result.mySetting) {
@@ -25,7 +27,9 @@ const disableButton = () => {
   const button = document.querySelector<HTMLButtonElement>(
     TARGET_BUTTON_SELECTOR,
   );
-  const branchName = document.querySelector(BRANCH_NAME_SELECTOR)?.textContent;
+  const branchName = document
+    .querySelector(BRANCH_NAME_SELECTORS.join(', '))
+    ?.textContent?.trim();
 
   if (!branchName || !button || button.disabled) {
     return;
@@ -33,7 +37,10 @@ const disableButton = () => {
 
   if (
     settings.branches.some(
-      (branch) => branch.enable && branch.name === branchName,
+      ({ enable, name }) =>
+        enable &&
+        (name === branchName ||
+          (name === 'main' && branchName === 'Enable branching')),
     )
   ) {
     button.disabled = true;
