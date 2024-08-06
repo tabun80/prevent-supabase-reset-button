@@ -8,6 +8,6 @@ This tool is designed to prevent accidental clicks on the "reset database passwo
 
 ## Installation
 
-1. Download and extract the zip file from the [Releases](https://github.com/tabun80/prevent-supabase-reset-button/releases)
-2. Go to chrome://extensions/ in Chrome and click `Load unpacked`, then select the extracted folder
+1. Download and extract the zip file from the [Releases](https://github.com/tabun80/prevent-supabase-reset-button/releases).
+2. Go to chrome://extensions/ in Chrome and click `Load unpacked`, then select the extracted folder.
 ![image](https://github.com/user-attachments/assets/c8c468b7-940f-4fe5-a97e-b7ef0933cb17)
